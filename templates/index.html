@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+	<h1>Welcome to
+		{% if request.user.is_authenticated %}
+			{{request.user.username}}
+		{% else %}
+			HOME
+		{% endif%}
+	</h1>
+{% endblock %}

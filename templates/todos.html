@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block extra_js%}
+ <script src="http://malsup.github.com/jquery.form.js"></script> {% endblock %}
+{% block content %}
+
+
+	<div>
+	{% if form %}
+		<h2> New Task</h2>
+		<form method="post" action="#">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Create Task" />
+		</form>
+	{% else %}
+
+
+	<h3><a href="/accounts/newtodo/" class="btn"> <i class="fa fa-plus-circle"> </i> New Task </a></h3>
+
+	<h3><a href="/accounts/hide_completed_todos/" class="btn"> <i class="fa fa-minus-circle"> </i> Hide Completed tasks</a></h3>
+
+	<h3><a href="/accounts/todos/" class="btn"> <i class="fa fa-minus-circle"> </i> All tasks</a></h3>
+
+	<br/>
+	{% if todos %}
+	<div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Task</th>
+				<th>Description</th>
+				<th>Status</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+		{%for todo in todos%}
+			<tr>
+				<td>{{todo.name}}</td>
+				<td>{{todo.description}}</td>
+				<td>
+					{% if todo.status %}
+						<i class="fa fa-check"></i>
+						<span>Done by {{todo.done_by}}</span>
+					{% else %}
+						<a href = "#" data-toggle="modal" data-target="#myModal"><i class="fa fa-minus-circle" data-id="{{todo.pk}}" onclick="getId({{todo.pk}})"></i></a>
+
+						<!-- <a href="/accounts/todo_status/{{todo.pk}}" onclick="return confirm('Are you sure you want to changes this status?')"><i class="fa fa-minus-circle"></i></a> -->
+					{% endif %}
+				</td>
+				<td>
+					{% if request.user == todo.user %}
+						<a href="/accounts/updatetodo/{{todo.id}}/" class="btn"> Edit </a>
+					{% else %}
+						<a href="#"  class="btn disable"> Edit </a>
+					{% endif%}
+				</td>
+				<td>
+					{% if request.user == todo.user %}
+						<a href="/accounts/del_todo/{{todo.id}}/" class="btn" onclick="return confirm('Are you sure you want to delete this?')"> Delete </a>
+					{% else %}
+						<a href="#"  class="btn disable"> Delete </a>
+					{% endif%}
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+
+	</div>
+	{% endif %}
+
+	{% endif %}
+	</div>
+
+
+	<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Todo Done By</h4>
+        </div>
+
+        <form method="post" id="get_todo">
+        	{% csrf_token %}
+	        <div class="modal-body">
+	            <input type="text" placeholder="Task done_by" name='didUser' />
+	        </div>
+	        <div class="modal-footer">
+	            <input type="submit" value="Done" class="btn btn-action"/>
+	        </div>
+    	</form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
