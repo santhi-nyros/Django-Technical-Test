@@ -24,7 +24,9 @@ Setup environment
 Do db migrations and run the app
 --------------------------------
 5. Now do the db migrations
+
 > python manage.py makemigrations
+
 > python manage.py migrate
 
 6. create a super user (for accessing through admin panel)
