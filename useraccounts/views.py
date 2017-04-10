@@ -165,7 +165,6 @@ def UpdateTodo(request,pk):
         todo.save()
         return HttpResponseRedirect('/accounts/todos/')
 
-
     form = TodoEditForm(initial=data)
 
     return render(request,'updatetodo.html',{"form":form})
@@ -179,7 +178,6 @@ def DeleteTodo(request,pk):
 @login_required
 def ChangeTodoStatus(request,pk):
     if request.method == 'POST':
-        print request.POST
         todo = Todos.objects.get(id = pk)
         todo.done_by = request.POST['didUser']
         todo.status = 'True'

@@ -36,9 +36,3 @@ password:
 > python manage.py runserver
 
 
-
-
-
-
-
-
