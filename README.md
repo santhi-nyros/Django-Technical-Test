@@ -31,8 +31,10 @@ Do db migrations and run the app
 
 6. create a super user (for accessing through admin panel)
 > python manage.py createsuperuser
-username:
-password:
+
+>username:
+
+>password:
 
 7. Now run the app by using
 > python manage.py runserver
