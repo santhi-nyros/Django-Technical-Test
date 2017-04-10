@@ -40,3 +40,5 @@ Do db migrations and run the app
 > python manage.py runserver
 
 
+8. For running testcase
+> ./manage.py test useraccounts/tests
